@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recommandations de Portfolio</title>
+  <style>
+    /* Styles pour le design épuré */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #333333;
+      text-align: center;
+    }
+    
+    /* Ajoutez ici vos styles personnalisés pour les éléments dynamiques */
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Recommandations de Portfolio</h1>
+    
+    <!-- Ajoutez ici les éléments HTML pour votre site dynamique -->
+    
+  </div>
+  
+  <!-- Ajoutez ici vos scripts JavaScript pour les calculs, les graphiques, etc. -->
+  <div id="chat-container"></div>
+  </div>
+
+  <!-- Insérez le script de Chat GPT ici -->
+  <script src="https://unpkg.com/@openai/chat-widget"></script>
+  <script>
+    OpenAIChat.default.init({
+      selector: "#chat-container",
+      apiKey: "VOTRE_CLÉ_API",
+      chatTitle: "Chat avec l'IA",
+      welcomeMessage: "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
+      // Autres options de configuration
+    });
+  </script>
+<body>
+  <div class="container">
+    <h1>Prix des Actifs Financiers</h1>
+    
+    <div>
+      <label for="symbol-input">Symbole ou Nom de l'Actif Financier :</label>
+      <input type="text" id="symbol-input">
+      <button onclick="fetchStockPrice()">Afficher les Prix</button>
+    </div>
+    
+    <div id="price-container">
+      <!-- Ici seront affichés les prix -->
+    </div>
+  </div>
+
+  <script>
+    function fetchStockPrice() {
+      const symbolInput = document.getElementById("symbol-input");
+      const symbol = symbolInput.value;
+      const apiKey = "897c4d2dea95e7a39b570c48f0ba57c0";
+
+      // URL de l'API MarketStack
+      const apiUrl = `http://api.marketstack.com/v1/intraday?access_key=${apiKey}&symbols=${symbol}`;
+
+      // Effectuer la requête HTTP pour récupérer les prix
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Traiter les données de réponse et les afficher dans l'élément HTML approprié
+          const priceContainer = document.getElementById("price-container");
+          priceContainer.innerHTML = "";
+
+          // Vérifier si des données de prix sont disponibles
+          if (data.data && data.data.length > 0) {
+            data.data.forEach(stock => {
+              const date = stock.date;
+              const price = stock.close;
+
+              const priceElement = document.createElement("p");
+              priceElement.textContent = `Date: ${date}, Prix: ${price}`;
+              priceContainer.appendChild(priceElement);
+            });
+          } else {
+            const noDataElement = document.createElement("p");
+            noDataElement.textContent = "Aucune donnée de prix disponible pour ce symbole.";
+            priceContainer.appendChild(noDataElement);
+          }
+        })
+        .catch(error => {
+          console.error("Erreur lors de la récupération des prix :", error);
+        });
+    }
+  </script>
+</body>
+</html>
