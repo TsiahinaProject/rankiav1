@@ -1,1 +1,1 @@
-# rankiav1
+# The rankia project
